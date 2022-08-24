@@ -10,7 +10,7 @@ from rest_framework.permissions import AllowAny
 class CustomUserCreate(APIView):
     permission_classes = [AllowAny]
 
-    def post(self, request, format='json'):
+    def product(self, request, format='json'):
         serializer = CustomUserSerializer(data=request.data)
         if serializer.is_valid():
             user = serializer.save()
@@ -24,7 +24,7 @@ class BlacklistTokenUpdateView(APIView):
     permission_classes = [AllowAny]
     authentication_classes = ()
 
-    def post(self, request):
+    def product(self, request):
         try:
             refresh_token = request.data["refresh_token"]
             token = RefreshToken(refresh_token)

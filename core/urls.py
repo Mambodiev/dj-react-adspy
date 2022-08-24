@@ -15,17 +15,17 @@ urlpatterns = [
     path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     # Project URLs
     path('admin/', admin.site.urls),
-    path('', include('blog.urls', namespace='blog')),
+    path('', include('snooperspy.urls', namespace='snooperspy')),
     # User Management
     path('api/user/', include('users.urls', namespace='users')),
-    # Blog_API Application
-    path('api/', include('blog_api.urls', namespace='blog_api')),
+    # Snooperspy_API Application
+    path('api/', include('snooperspy_api.urls', namespace='snooperspy_api')),
 
     # API schema and Documentation
-    path('project/docs/', include_docs_urls(title='BlogAPI')),
+    path('project/docs/', include_docs_urls(title='SnooperspyAPI')),
     path('project/schema', get_schema_view(
-        title="BlogAPI",
-        description="API for the BlogAPI",
+        title="SnooperspyAPI",
+        description="API for the SnooperspyAPI",
         version="1.0.0"
     ), name='openapi-schema'),
 ]

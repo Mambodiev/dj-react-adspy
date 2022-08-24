@@ -1,13 +1,13 @@
 from rest_framework import serializers
-from blog.models import Post
+from snooperspy.models import Product
 from django.conf import settings
 
 
-class PostSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Post
+        model = Product
         fields = ('category', 'id', 'title', 'image', 'slug', 'author',
-                  'excerpt', 'content', 'status')
+                     'status')
 
 
 class UserRegisterSerializer(serializers.ModelSerializer):

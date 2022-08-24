@@ -1,24 +1,24 @@
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
-from blog.models import Post, Category
+from snooperspy.models import Product, Category
 from django.contrib.auth.models import User
 from rest_framework.test import APIClient
 
 
-class PostTests(APITestCase):
+class ProductTests(APITestCase):
 
-    def test_view_posts(self):
+    def test_view_products(self):
         """
         Ensure we can view all objects.
         """
-        url = reverse('blog_api:listcreate')
+        url = reverse('snooperspy_api:listcreate')
         response = self.client.get(url, format='json')
         self.assertEqual(response.status_code, status.HTTP_200_OK)
 
-    def test_create_post(self):
+    def test_create_product(self):
         """
-        Ensure we can create a new Post object and view object.
+        Ensure we can create a new Product object and view object.
         """
         self.test_category = Category.objects.create(name='django')
         self.testuser1 = User.objects.create_superuser(
@@ -30,11 +30,11 @@ class PostTests(APITestCase):
 
         data = {"title": "new", "author": 1,
                 "excerpt": "new", "content": "new"}
-        url = reverse('blog_api:listcreate')
-        response = self.client.post(url, data, format='json')
+        url = reverse('snooperspy_api:listcreate')
+        response = self.client.product(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
-    def test_post_update(self):
+    def test_product_update(self):
 
         client = APIClient()
 
@@ -43,13 +43,13 @@ class PostTests(APITestCase):
             username='test_user1', password='123456789')
         self.testuser2 = User.objects.create_user(
             username='test_user2', password='123456789')
-        test_post = Post.objects.create(
-            category_id=1, title='Post Title', excerpt='Post Excerpt', content='Post Content', slug='post-title', author_id=1, status='published')
+        test_product = Product.objects.create(
+            category_id=1, title='Product Title', excerpt='Product Excerpt', content='Product Content', slug='product-title', author_id=1, status='published')
 
         client.login(username=self.testuser1.username,
                      password='123456789')
 
-        url = reverse(('blog_api:detailcreate'), kwargs={'pk': 1})
+        url = reverse(('snooperspy_api:detailcreate'), kwargs={'pk': 1})
 
         response = client.put(
             url, {

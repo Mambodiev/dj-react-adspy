@@ -1,1 +1,1 @@
-# blog-with-react
+# snooperspy-with-react

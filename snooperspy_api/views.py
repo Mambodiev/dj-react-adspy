@@ -1,55 +1,55 @@
 from django.shortcuts import get_object_or_404
-from blog.models import Post
-from .serializers import PostSerializer
+from snooperspy.models import Product
+from .serializers import ProductSerializer
 from rest_framework import viewsets, filters, generics, permissions
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
-# Display Posts
+# Display Products
 
 
-class PostList(generics.ListAPIView):
+class ProductList(generics.ListAPIView):
 
-    serializer_class = PostSerializer
-    queryset = Post.objects.all()
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
 
-class PostDetail(generics.RetrieveAPIView):
+class ProductDetail(generics.RetrieveAPIView):
 
-    serializer_class = PostSerializer
+    serializer_class = ProductSerializer
 
     def get_object(self, queryset=None, **kwargs):
         item = self.kwargs.get('pk')
-        return get_object_or_404(Post, slug=item)
+        return get_object_or_404(Product, slug=item)
 
-# Post Search
+# Product Search
 
 
-class PostListDetailfilter(generics.ListAPIView):
+class ProductListDetailfilter(generics.ListAPIView):
 
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter]
     # '^' Starts-with search.
     # '=' Exact matches.
     search_fields = ['^slug']
 
-# Post Admin
+# Product Admin
 
-# class CreatePost(generics.CreateAPIView):
+# class CreateProduct(generics.CreateAPIView):
 #     permission_classes = [permissions.IsAuthenticated]
-#     queryset = Post.objects.all()
-#     serializer_class = PostSerializer
+#     queryset = Product.objects.all()
+#     serializer_class = ProductSerializer
 
 
-class CreatePost(APIView):
+class CreateProduct(APIView):
     permission_classes = [permissions.IsAuthenticated]
     parser_classes = [MultiPartParser, FormParser]
 
-    def post(self, request, format=None):
+    def product(self, request, format=None):
         print(request.data)
-        serializer = PostSerializer(data=request.data)
+        serializer = ProductSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
@@ -57,22 +57,22 @@ class CreatePost(APIView):
             return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
-class AdminPostDetail(generics.RetrieveAPIView):
+class AdminProductDetail(generics.RetrieveAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    queryset = Post.objects.all()
-    serializer_class = PostSerializer
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
 
 
-class EditPost(generics.UpdateAPIView):
+class EditProduct(generics.UpdateAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = PostSerializer
-    queryset = Post.objects.all()
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
 
-class DeletePost(generics.RetrieveDestroyAPIView):
+class DeleteProduct(generics.RetrieveDestroyAPIView):
     permission_classes = [permissions.IsAuthenticated]
-    serializer_class = PostSerializer
-    queryset = Post.objects.all()
+    serializer_class = ProductSerializer
+    queryset = Product.objects.all()
 
 
 """ Concrete View Classes
