@@ -9,11 +9,7 @@ class AuthorAdmin(admin.ModelAdmin):
 
 
 admin.site.register(models.Category)
-admin.site.register(models.ProductInsightsRating)
-admin.site.register(models.ProductInsights)
-admin.site.register(models.OrdersStatistics)
-admin.site.register(models.CompetitorMeter)
-admin.site.register(models.TopCustomerCountries)
 admin.site.register(models.SellingOn)
 admin.site.register(models.Suppliers)
-admin.site.register(models.FacebookTargetArea)
+admin.site.register(models.Countries)
+admin.site.register(models.Gender)

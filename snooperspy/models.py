@@ -17,42 +17,6 @@ class Category(models.Model):
     def __str__(self):
         return self.name
 
-class ProductInsightsRating(models.Model):
-    text = models.CharField(max_length=200, blank=True)
-    Product_Breakthrough_rating = models.CharField(max_length=200, blank=True)
-
-    class Meta:
-        verbose_name_plural = "ProductInsightsRating"
-
-    def __str__(self):
-        return self.text
-
-
-class OrdersStatistics(models.Model):
-    Total_last_6_months = models.IntegerField(default=0)
-    Total_last_30_days = models.IntegerField(default=0)
-    Total_last_14_days = models.IntegerField(default=0)
-    Total_last_7_days = models.IntegerField(default=0)
-    daily_approximation = models.IntegerField(default=0)
-   
-    class Meta:
-        verbose_name_plural = "OrdersStatistics"
-
-    def __str__(self):
-        return self.daily_approximation
-
-
-class ProductInsights(models.Model):
-    text = models.CharField(max_length=200, blank=True)
-    Product_Breakthrough = models.CharField(max_length=200, blank=True)
-
-    class Meta:
-        verbose_name_plural = "ProductInsights"
-
-    def __str__(self):
-        return self.text
-
-
 class SellingOn(models.Model):
     sotre_location = models.CharField(max_length=200, blank=True, null=True,)
     sotre_intelligence = models.CharField(max_length=200, blank=True, null=True,)
@@ -77,44 +41,29 @@ class Suppliers(models.Model):
         return self.suppliers_links
 
 
-class CompetitorMeter(models.Model):
-    percentage = models.IntegerField(default=0)
-    competiton = models.CharField(max_length=200, blank=True, null=True,)
+class Countries(models.Model):
+    percentage= models.IntegerField(default=0)
+    countries = models.CharField(max_length=200, blank=True, null=True,)
 
     class Meta:
-        verbose_name_plural = "CompetitorMeters"
+        verbose_name_plural = "Countries"
 
     def __str__(self):
-        return self.competiton
+        return self.countries
 
 
-class TopCustomerCountries(models.Model):
-    percentage = models.IntegerField(default=0)
-    competiton = models.CharField(max_length=200, blank=True, null=True,)
-
-    class Meta:
-        verbose_name_plural = "TopCustomerCountries"
-
-    def __str__(self):
-        return self.competiton
-
-
-class FacebookTargetArea(models.Model):
-    Business_Industry = models.CharField(max_length=200, blank=True, null=True,)
-    Entertainment = models.CharField(max_length=200, blank=True, null=True,)
-    Family_relationships = models.CharField(max_length=200, blank=True, null=True,)
-    Fitness_wellness = models.CharField(max_length=200, blank=True, null=True,)
-    Food_drink = models.CharField(max_length=200, blank=True, null=True,)
-    Hobbies_activities = models.CharField(max_length=200, blank=True, null=True,)
-    Shopping_fashion = models.CharField(max_length=200, blank=True, null=True,)
-    Sports_outdoors = models.CharField(max_length=200, blank=True, null=True,)
-    Technology = models.CharField(max_length=200, blank=True, null=True,)
+class Gender(models.Model):
+    male = models.IntegerField(default=0)
+    female = models.IntegerField(default=0)
+    unknown = models.IntegerField(default=0)
    
     class Meta:
-        verbose_name_plural = "FacebookTargetArea"
+        verbose_name_plural = "Gender"
 
     def __str__(self):
-        return self.Technology
+        return self.male
+
+
 class Product(models.Model):
 
     class ProductObjects(models.Manager):
@@ -125,40 +74,30 @@ class Product(models.Model):
         ('draft', 'Draft'),
         ('published', 'Published'),
     )
-    title = models.CharField(max_length=250)
+    title = models.CharField(max_length=250, help_text = "This refer to the name of the product")
+    kind_ads = models.CharField(max_length=250, blank=True, null=True, help_text = "FaceBook, Instagram, tiktok...")
+    media_ads = models.CharField(max_length=250, blank=True, null=True, help_text = "Video, Photo, both")
     image = models.ImageField(
         _("Image"), upload_to=upload_to, default='products/default.jpg')
-    published = models.DateTimeField(default=timezone.now)
-    we_found = models.DateTimeField(default=timezone.now)
-    orders = models.IntegerField(default=0)
-    product_cost = models.IntegerField(default=0)
-    selling_price = models.IntegerField(default=0)
-    profit_margin = models.IntegerField(default=0)
-    total_sales = models.IntegerField(default=0)
-    number_of_suppliers= models.IntegerField(default=0)
-    number_of_store_selling= models.IntegerField(default=0)
-    product_insights_rating = models.ForeignKey(
-        ProductInsightsRating, on_delete=models.PROTECT, blank=True, null=True,)
-    orders_statistics = models.ForeignKey(
-        OrdersStatistics, on_delete=models.PROTECT, blank=True, null=True,)
-    product_insights = models.ForeignKey(
-        ProductInsights, on_delete=models.PROTECT, blank=True, null=True,)
-    competitor_meter = models.ForeignKey(
-        CompetitorMeter, on_delete=models.PROTECT, blank=True, null=True,)
-    top_customer_countries = models.ForeignKey(
-        TopCustomerCountries, on_delete=models.PROTECT, blank=True, null=True,)
+    ads_image = models.ImageField(
+        _("Image"), upload_to=upload_to, default='products/default.jpg')
+    published = models.DateTimeField(default=timezone.now, help_text = "First time we saw this ads")
+    we_found = models.DateTimeField(default=timezone.now, help_text = "This ads wa created between")
+    likes = models.IntegerField(default=0, help_text = "Amount of likes generated")
+    product_cost = models.IntegerField(default=0, help_text = "Price pay to buy this product")
+    selling_price = models.IntegerField(default=0, help_text = "Price you can sell this product")
+    profit_margin = models.IntegerField(default=0, help_text = "Profit you get from this product")
+    number_of_suppliers= models.IntegerField(default=0,  help_text = "Number of suppliers we get for this product")
+    number_of_comment= models.IntegerField(default=0,  help_text = "Number of comment we get for this product")
+    number_of_likes= models.IntegerField(default=0,  help_text = "Number of likes we get for this product")
+    countries = models.ForeignKey(
+        Countries, on_delete=models.PROTECT, blank=True, null=True,)
     selling_on = models.ForeignKey(
         SellingOn, on_delete=models.PROTECT, blank=True, null=True,)
     suppliers = models.ForeignKey(
         Suppliers, on_delete=models.PROTECT, blank=True, null=True,)
-    facebook_target_area = models.ForeignKey(
-        FacebookTargetArea, on_delete=models.PROTECT, blank=True, null=True,)
-    view_facebook_ads = models.CharField(max_length=250, blank=True, null=True,)
-    view_on_amazon = models.CharField(max_length=250, blank=True, null=True,)
-    view_on_youtube = models.CharField(max_length=250, blank=True, null=True,)
-    view_tiktok_ads = models.CharField(max_length=250, blank=True, null=True,)
-    view_pinterest_ads = models.CharField(max_length=250, blank=True, null=True,)
-
+    gender = models.ForeignKey(
+        Gender, on_delete=models.PROTECT, blank=True, null=True,)
     slug = models.SlugField(max_length=250, unique_for_date='published')
     category = models.ForeignKey(
         Category, on_delete=models.PROTECT, default=1)
